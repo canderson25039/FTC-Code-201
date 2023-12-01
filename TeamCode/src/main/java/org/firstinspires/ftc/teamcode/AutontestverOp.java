@@ -17,9 +17,7 @@ public class AutontestverOp extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         RobotHardware robot = new RobotHardware(hardwareMap, telemetry);
         RevBlinkinLedDriver.BlinkinPattern pattern;
-        double[] CurrentCoords = new double[]{0, 0, 0,
-                robot.LF.getCurrentPosition(), robot.RF.getCurrentPosition(),
-                robot.LB.getCurrentPosition()};
+
 
 
         double dist1;
@@ -32,10 +30,10 @@ public class AutontestverOp extends LinearOpMode {
         //shift to measure distances
         while (opModeIsActive()) {
 
-            CurrentCoords = robot.driveToTile(CurrentCoords, new double[]{0, 0, 0}, 1);
 
-            CurrentCoords = robot.driveToTile(CurrentCoords, new double[]{0, 0, 0}, 1);
-            CurrentCoords = robot.driveToTile(CurrentCoords, new double[]{0, 0, 0}, 1);
+            double[] CurrentCoords = new double[]{0, 0, 0,
+                    robot.LF.getCurrentPosition(), robot.RF.getCurrentPosition(),
+                    robot.LB.getCurrentPosition()};
             robot.blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.WHITE);
             //test distance sensor measuring
             //doesn't move to align sensors
@@ -64,10 +62,10 @@ public class AutontestverOp extends LinearOpMode {
             g = robot.cSensor.green();
             b = robot.cSensor.blue();
             robot.colorCheck(r, g, b);
-
+            telemetry.addData("coords", CurrentCoords);
 
             telemetry.addData("position", pos);
-            sleep(5000);
+
             //robot.MoveDirection(0, 0, .5, 1); // Direction (-180 ≤ angle ≤ 180), Turn (-1 ≤ turn ≤ 1), Throttle (1 is max speed possible), time is in seconds
             //robot.MoveDirection(0, 90, 0.5, 1);
             //robot.MoveDirection(0, 0, 0.5, 2);

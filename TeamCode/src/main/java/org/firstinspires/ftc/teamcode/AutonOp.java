@@ -6,16 +6,23 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
+import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 
 @Autonomous(name = "Auton", group = "Iterative Opmode")
 public class AutonOp extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
+
         RobotHardware robot = new RobotHardware(hardwareMap, telemetry);
-        double[] CurrentCoords = new double[]{0, 0, 0,
-                robot.LF.getCurrentPosition(), robot.RF.getCurrentPosition(),
-                robot.LB.getCurrentPosition()};
         RevBlinkinLedDriver.BlinkinPattern pattern;
 
         double dist1;
@@ -27,12 +34,14 @@ public class AutonOp extends LinearOpMode {
         while (opModeIsActive() ){
             //farside blue
             //shift to measure distances
-            CurrentCoords = robot.driveToTile(CurrentCoords, new double[]{0.25, 0, 0}, 1);
+
             dist1 = robot.dSensor0.getDistance(DistanceUnit.INCH);
             dist2 = robot.dSensor1.getDistance(DistanceUnit.INCH);
-            sleep(500);
+            sleep(3000000);
+
         /*
         //conditionals for each position
+
         if (robot.DSCheck(dist1,dist2) ==2){
             pos = 2;
             CurrentCoords = robot.driveToTile(CurrentCoords, new double []{0, 0, 0}, 1);
@@ -63,6 +72,8 @@ public class AutonOp extends LinearOpMode {
 
             telemetry.addLine("End of Autonomous");
             telemetry.update();
+
+            break;
 
         }
     }

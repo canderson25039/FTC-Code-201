@@ -269,10 +269,7 @@ class RobotHardware {
     public double[] driveToTile(double[] CurrentCoords, double[] TargetCoords, double Speed) {
         //inputs are arrays, [x,y,turn], [x,y,turn], speed(0-1)
         CurrentCoords = updateCoords(CurrentCoords);
-        LF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        LB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        RF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        RB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         double Distance = Math.sqrt(Math.pow(TargetCoords[0] - CurrentCoords[0],
                 2) + Math.pow(TargetCoords[1] - CurrentCoords[1], 2));
         double maxPower = 0, maxSpeed = 0;
