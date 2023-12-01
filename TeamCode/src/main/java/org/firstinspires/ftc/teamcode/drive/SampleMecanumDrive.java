@@ -25,7 +25,9 @@ import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceRunner;
@@ -67,6 +69,7 @@ public class SampleMecanumDrive extends MecanumDrive {
     private static final TrajectoryAccelerationConstraint ACCEL_CONSTRAINT = getAccelerationConstraint(MAX_ACCEL);
 
     private TrajectoryFollower follower;
+    private DistanceSensor DS0, DS1;
 
     private DcMotorEx leftFront, leftRear, rightRear, rightFront;
     private List<DcMotorEx> motors;
@@ -104,6 +107,8 @@ public class SampleMecanumDrive extends MecanumDrive {
         leftRear = hardwareMap.get(DcMotorEx.class, "LB");
         rightRear = hardwareMap.get(DcMotorEx.class, "RB");
         rightFront = hardwareMap.get(DcMotorEx.class, "RF");
+        DS0= hardwareMap.get(DistanceSensor.class, "DS0");
+        DS1= hardwareMap.get(DistanceSensor.class, "DS1");
 
         motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
 
@@ -311,4 +316,38 @@ public class SampleMecanumDrive extends MecanumDrive {
     public static TrajectoryAccelerationConstraint getAccelerationConstraint(double maxAccel) {
         return new ProfileAccelerationConstraint(maxAccel);
     }
+
+    public int DSCheck () {
+        int result;
+        if (DS0.getDistance(DistanceUnit.INCH) < 24) {
+            result = 2;
+        } else if (DS1.getDistance(DistanceUnit.INCH) < 24) {
+            result = 3;
+        } else {
+            result = 1;
+        }
+        return result;
+    }
+    public Pose2d driveseq(double f, double b, double rs, double ls, double turn, Pose2d pose){
+        /*
+        f: forward
+        b:back
+        rs: strafe right
+        ls: strafe left
+        all in inches
+        turn: in degrees counterclockwise
+         */
+        TrajectorySequence trajSeq = trajectorySequenceBuilder(pose)
+                .forward(f)
+                .back(b)
+                .strafeRight(rs)
+                .strafeLeft(ls)
+                .turn(Math.toRadians(turn))
+                .build();
+        followTrajectorySequence(trajSeq);
+        Pose2d endpos = getPoseEstimate();
+        return endpos;
+    }
+
+
 }
