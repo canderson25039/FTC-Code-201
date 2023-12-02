@@ -34,40 +34,58 @@ public class autoroadruntest extends LinearOpMode{
         if (isStopRequested()) return;
 
         while (!isStopRequested()) {
-            Pose2d poseEstimate = drive.driveseq(0,0,3,0,0, startPose);
-            drive.DSCheck();
+
+            TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(startPose)
+                    .strafeRight(3)
+                    .build();
+            drive.followTrajectorySequence(trajSeq);
+            Pose2d poseEstimate = drive.getPoseEstimate();
+                    drive.DSCheck();
             if (drive.DSCheck() == 2) {
-                poseEstimate = drive.driveseq(25,0,0,3,0, poseEstimate);
+                TrajectorySequence case2traj1 = drive.trajectorySequenceBuilder(poseEstimate)
+                        .strafeLeft(3)
+                        .forward(25)
+                        .build();
+                drive.followTrajectorySequence(case2traj1);
+                poseEstimate = drive.getPoseEstimate();
 
-                //drop off pixel
-                poseEstimate = drive.driveseq(0,10,0,0,0, poseEstimate);
+                //drop pixel off
+                case2traj1 = drive.trajectorySequenceBuilder(poseEstimate)
+                        .back(10)
+                        .build();
+                drive.followTrajectorySequence(case2traj1);
+                poseEstimate = drive.getPoseEstimate();
 
-                poseEstimate = drive.driveseq(0,0,20,0,0, poseEstimate);
+                //line up parking path
+                case2traj1 = drive.trajectorySequenceBuilder(poseEstimate)
+                        .strafeRight(20)
+                        .build();
+                drive.followTrajectorySequence(case2traj1);
+                poseEstimate = drive.getPoseEstimate();
 
-                // line up parking path
-                poseEstimate = drive.driveseq(12,0,0,0,0, poseEstimate);
-                poseEstimate = drive.driveseq(12,0,25,0,-90, poseEstimate);
+                case2traj1 = drive.trajectorySequenceBuilder(poseEstimate)
+                        .forward(24)
+                        .build();
+                drive.followTrajectorySequence(case2traj1);
+                poseEstimate = drive.getPoseEstimate();
 
-                //park
-                poseEstimate = drive.driveseq(120,0,0,0,0, poseEstimate);
+                case2traj1 = drive.trajectorySequenceBuilder(poseEstimate)
+                        .turn(Math.toRadians(-90))
+                        .build();
+                drive.followTrajectorySequence(case2traj1);
+                poseEstimate = drive.getPoseEstimate();
+
+                //drive to park
+                case2traj1 = drive.trajectorySequenceBuilder(poseEstimate)
+                        .forward(145)
+                        .build();
+                drive.followTrajectorySequence(case2traj1);
+                poseEstimate = drive.getPoseEstimate();
 
 
 
 
             } else if (drive.DSCheck() == 3) {
-                poseEstimate = drive.driveseq(18,0,0,0,0, poseEstimate);
-
-                //drop off pixel
-                poseEstimate = drive.driveseq(0,10,0,0,0, poseEstimate);
-
-                poseEstimate = drive.driveseq(0,0,20,0,0, poseEstimate);
-
-                // line up parking path
-                poseEstimate = drive.driveseq(19,0,0,0,0, poseEstimate);
-                poseEstimate = drive.driveseq(12,0,25,0,-90, poseEstimate);
-
-                //park
-                poseEstimate = drive.driveseq(120,0,0,0,0, poseEstimate);
 
 
             } else {

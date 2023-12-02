@@ -43,7 +43,7 @@ public class BasicTeleOp extends LinearOpMode {
             double time = getRuntime();
             double tdist;
             // Drivetrain
-            robot.driveWithControllers(-Math.abs(gamepad1.left_stick_x) * gamepad1.left_stick_x,
+            robot.driveWithControllers(Math.abs(gamepad1.left_stick_x) * gamepad1.left_stick_x,
                     -1 * Math.abs(gamepad1.left_stick_y) * gamepad1.left_stick_y,
                     Math.abs(gamepad1.right_stick_x) * gamepad1.right_stick_x, 1 - 0.5 * gamepad1.left_trigger);
 
