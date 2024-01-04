@@ -323,9 +323,9 @@ public class SampleMecanumDrive extends MecanumDrive {
 
     public int DSCheck () {
         int result;
-        if (DS0.getDistance(DistanceUnit.INCH) < 24) {
+        if (DS0.getDistance(DistanceUnit.INCH) < 6) {
             result = 2;
-        } else if (DS1.getDistance(DistanceUnit.INCH) < 24) {
+        } else if (DS1.getDistance(DistanceUnit.INCH) < 11) {
             result = 3;
         } else {
             result = 1;

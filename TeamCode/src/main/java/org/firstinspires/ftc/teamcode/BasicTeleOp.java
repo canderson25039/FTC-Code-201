@@ -45,7 +45,7 @@ public class BasicTeleOp extends LinearOpMode {
             // Drivetrain
             robot.driveWithControllers(Math.abs(gamepad1.left_stick_x) * gamepad1.left_stick_x,
                     -1 * Math.abs(gamepad1.left_stick_y) * gamepad1.left_stick_y,
-                    Math.abs(gamepad1.right_stick_x) * gamepad1.right_stick_x, 1 - 0.5 * gamepad1.left_trigger);
+                    Math.abs(gamepad1.right_stick_x) * gamepad1.right_stick_x, 1, gamepad1.right_bumper);
 
 
             // Intake
@@ -265,7 +265,7 @@ class RobotHardware {
                 -LF.getCurrentPosition() * encoderBad, RF.getCurrentPosition() *
                 encoderBad, LB.getCurrentPosition() * encoderBad}; // Last Encoder Positions
     }
-
+/*
     public double[] driveToTile(double[] CurrentCoords, double[] TargetCoords, double Speed) {
         //inputs are arrays, [x,y,turn], [x,y,turn], speed(0-1)
         CurrentCoords = updateCoords(CurrentCoords);
@@ -322,6 +322,8 @@ class RobotHardware {
         methodSleep(300);
         return updateCoords(CurrentCoords);
     }
+
+ */
 //turning
     public double[] turnDegrees(double[] CurrentCoords, double degrees) {
         double leftStart = LF.getCurrentPosition() * encoderBad;
@@ -331,9 +333,9 @@ class RobotHardware {
                 targetRotation && Math.abs(RF.getCurrentPosition() * encoderBad - rightStart) <
                 targetRotation) {
 
-            driveWithControllers(0, 0, Math.signum(degrees) * 0.5, 0.5);
+            //driveWithControllers(0, 0, Math.signum(degrees) * 0.5, 0.5);
         }
-        driveWithControllers(0, 0, 0, 0);
+        //driveWithControllers(0, 0, 0, 0);
         methodSleep(300);
 
         CurrentCoords[2] = angleDifference(0, degrees + CurrentCoords[2]);
@@ -357,7 +359,7 @@ class RobotHardware {
         }
     }
 
-    public void driveWithControllers(double strafe, double forward, double turn, double throttle) {
+    public void driveWithControllers(double strafe, double forward, double turn, double throttle, boolean slow) {
         double max_power = Math.max(1, Math.max(Math.max(
                 Math.abs(-forward - strafe + turn), // LF
                 Math.abs(-forward + strafe + turn) // LB
@@ -368,6 +370,7 @@ class RobotHardware {
         strafe /= max_power;
         forward /= max_power;
         turn /= max_power;
+        if (slow){ throttle *= 0.5;}
         LF.setPower(throttle * (-forward - strafe + turn));
         LB.setPower(throttle * (-forward + strafe + turn));
         RF.setPower(throttle * (-forward + strafe - turn));
@@ -378,7 +381,7 @@ class RobotHardware {
     public void colorCheck (double red, double green, double blue){
         // check for White, Black, yellow, Green, Purple
 
-        if (red > 210 && green > 210 && blue > 210) {
+        if (red > 250 && green > 250 && blue > 250) {
             pattern = RevBlinkinLedDriver.BlinkinPattern.WHITE;
         } else if (red < 60 && green < 60 && blue < 60){
             pattern = RevBlinkinLedDriver.BlinkinPattern.BLACK;

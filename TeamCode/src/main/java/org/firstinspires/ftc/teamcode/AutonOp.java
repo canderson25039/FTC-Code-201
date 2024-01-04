@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 
-@Autonomous(name = "Auton", group = "Iterative Opmode")
+@Autonomous(name = "Autonbasic", group = "Iterative Opmode")
 public class AutonOp extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
@@ -32,48 +32,30 @@ public class AutonOp extends LinearOpMode {
 
         waitForStart();
         while (opModeIsActive() ){
-            //farside blue
-            //shift to measure distances
-
             dist1 = robot.dSensor0.getDistance(DistanceUnit.INCH);
             dist2 = robot.dSensor1.getDistance(DistanceUnit.INCH);
-            sleep(3000000);
-
-        /*
-        //conditionals for each position
-
-        if (robot.DSCheck(dist1,dist2) ==2){
-            pos = 2;
-            CurrentCoords = robot.driveToTile(CurrentCoords, new double []{0, 0, 0}, 1);
-            sleep(20);
-            CurrentCoords = robot.driveToTile(CurrentCoords, new double []{0, 0, 0}, 1);
-        } else if (robot.DSCheck(dist1,dist2)==3) {
-            pos =3;
-            CurrentCoords = robot.driveToTile(CurrentCoords, new double []{0, 0, 0}, 1);
-            sleep(20);
-            CurrentCoords = robot.driveToTile(CurrentCoords, new double []{0, 0, 0}, 1);
-        }else {
-            pos =1;
-            CurrentCoords = robot.driveToTile(CurrentCoords, new double []{0, 0, 0}, 1);
-            sleep(20);
-            //turn to get behind pole in front of spike mark
-            robot.turnDegrees(CurrentCoords, -90);
-            CurrentCoords = robot.driveToTile(CurrentCoords, new double []{4.25, 2.38, 0}, 1);
-        }
 
 
-    */
 
-            //telemetry.addData("position", pos);
+            if (robot.DSCheck(dist1, dist2) == 2) {
+                pos = 2;
+                robot.blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.STROBE_RED);
 
-            //robot.MoveDirection(0, 0, .5, 1); // Direction (-180 ≤ angle ≤ 180), Turn (-1 ≤ turn ≤ 1), Throttle (1 is max speed possible), time is in seconds
-            //robot.MoveDirection(0, 90, 0.5, 1);
-            //robot.MoveDirection(0, 0, 0.5, 2);
+            } else if (robot.DSCheck(dist1, dist2) == 3) {
+                pos = 3;
+                robot.blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.STROBE_BLUE);
 
+            } else {
+                pos = 1;
+                robot.blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.STROBE_GOLD);
+
+            }
+            telemetry.addData("dist1", dist1);
+            telemetry.addData("dist2", dist2);
             telemetry.addLine("End of Autonomous");
             telemetry.update();
 
-            break;
+
 
         }
     }
